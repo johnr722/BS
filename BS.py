@@ -1,16 +1,9 @@
-from numpy import *
+def bsm_call_value(S0, K, T, r, sigma):
 
-I = 100000
-
-S0 = 100.
-K=105.
-T=1.0
-r=0.05
-sigma = 0.2
-
-z = random.standard_normal(I)
-ST=S0*exp((r-0.5*sigma**2)*T+sigma*sqrt(T)*z)
-hT = maximum(ST - K, 0)
-C0=exp(-r*T)*sum(hT)/I
-
-print(C0)
+    from math import log, sqrt, exp
+    from scipy import stats
+    S0 = float(S0)
+    d1=(log(S0/K)+(r+0.5*sigma**2)*T)/(sigma*sqrt(T))
+    d2=(log(S0/K)+(r-0.5*sigma**2)*T)/(sigma*sqrt(T))
+    value = (S0 * stats.norm.cdf(d1, 0.0, 1.0)- K * exp(-r * T) * stats.norm.cdf(d2, 0.0, 1.0))
+    return value
